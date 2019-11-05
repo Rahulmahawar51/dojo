@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="checkbox" id="dbox1" checked
+        data-dojo-type="dijit/form/CheckBox">
+    <label for="dbox1">Want</label>
+    <input type="checkbox" dojoType="dijit/form/ToggleButton" checked iconClass="dijitCheckBoxIcon" label="Toggle Me">
+
+    <div id="pbox1_container"></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="isDebug: true, async: true" ></script>
+    <script>
+        var myToggleButton = new ToggleButton({
+            checked: true,
+            iconClass: "dijitCheckBoxIcon",
+            label: "Toggle Me, Too."
+        }, "toggleButtonProgrammatic");
+    </script>
+</body>
+</html>

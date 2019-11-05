@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Hello Dojo!</title>
+</head>
+<body>
+    <h1 id="greeting">Hello</h1>
+    <div>
+        <button id="button1" type="button">Button1</button>
+        <button id="button2" data-dojo-type="dijit/form/Button" type="button">Button2</button>
+        <button id="button3" data-dojo-type="dijit/form/Button" type="button">
+        <div>Button4</div>
+        <script type="dojo/on" data-dojo-event="click">
+            console.log("I was clicked");
+        </script>
+        </button>
+    </div>
+    
+    <script>
+        var dojoConfig = {
+            baseUrl: '/rahul/dojo//js/',
+            async: true,
+            packages: [{
+                name: "package1",
+                location: 'demo'
+            }]
+        };
+    </script>
+
+    <script data-dojo-config="async: true" src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+
+    <script>
+        require([
+            'package1/myModule'
+        ], function (myModule) {
+            myModule.setText('greeting', 'Hello Dojo!');
+
+            setTimeout(function () {
+                myModule.restoreText('greeting');
+            }, 3000);
+        });
+
+        require([
+            "dojo/dom",
+            "dojo/on",
+            "dojo/parser",
+            "dijit/registry",
+            "dijit/form/Button",
+            "dojo/domReady!"
+        ], function(dom, on, parser, registry){
+            var myClick = function(evt){
+                console.log("I was clicked");
+            };
+
+            parser.parse();
+
+            on(dom.byId("button1"), "click", myClick);
+            on(registry.byId("button2"), "click", myClick);
+        });
+
+        require([
+            "dojo/_base/declare",
+            "dojo/dom"
+        ], function(declare, dom){
+            var MyClass = declare(null, {
+                primitiveVal: 5,
+                objectVal: [1, 2, 3]
+            });
+
+            var obj1 = new MyClass();
+            var obj2 = new MyClass();
+
+            // both return the same value from the prototype
+            obj1.primitiveVal === 5; // true
+            obj2.primitiveVal === 5; // true
+
+            // obj2 gets its own property (prototype remains unchanged)
+            obj2.primitiveVal = 10;
+
+            // obj1 still gets its value from the prototype
+            obj1.primitiveVal === 5; // true
+            obj2.primitiveVal === 10; // true
+
+            // both point to the array on the prototype,
+            // neither instance has its own array at this point
+            console.log(obj1.objectVal === obj2.objectVal); // true
+
+            // obj2 manipulates the prototype's array
+            obj2.objectVal.push(4);
+            // obj2's manipulation is reflected in obj1 since the array
+            // is shared by all instances from the prototype
+            console.log(obj1.objectVal.length === 4); // true
+            console.log(obj1.objectVal[3] === 4); // true
+
+            // only assignment of the property itself (not manipulation of object
+            // properties) creates an instance-specific property
+            obj2.objectVal = [];
+            console.log(obj1.objectVal === obj2.objectVal); // false
+
+            /*************************************************************************************************/
+
+            var NewClass = declare(null, {
+                // not strictly necessary, but good practice
+                // for readability to declare all properties
+                memberList: null,
+                roomMap: null,
+
+                constructor: function (arr1, arr2) {
+                    // initializing these properties with values in the constructor
+                    // ensures that they ready for use by other methods
+                    // (and are not null or undefined)
+                    this.memberList = arr1;
+                    this.roomMap = arr2;
+                }
+            });
+
+            /*************************************************************************************************/
+
+            var obj3 = NewClass([1,2,3],{'kwy':'val'});
+            console.log(obj3);
+
+            // Define class A
+            var A = declare(null, {
+                myMethod: function(){
+                    console.log("Hello!");
+                }
+            });
+
+            // Define class B
+            var B = declare(A, {
+                myMethod: function(){
+                    // Call A's myMethod
+                    this.inherited(arguments); // arguments provided to A's myMethod
+                    console.log("World!");
+                }
+            });
+
+            // Create an instance of B
+            var myB = new B();
+            myB.myMethod();
+
+        });
+        
+        require(["dojo/request"], function(request){
+            request("helloworld.txt").then(
+                function(text){
+                    console.log("The file's content is: " + text);
+                },
+                function(error){
+                    console.log("An error occurred: " + error);
+                }
+            );
+        });
+
+    </script>
+
+</body>
+</html>

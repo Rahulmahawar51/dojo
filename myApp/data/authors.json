@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Brian Arnold",
+        "avatar": "http://localhost/dojo/images/image1.png",
+        "bio": "Brian Arnold is a software engineer at SitePen, Inc., ..."
+    },
+    {
+        "name": "Brian Arnold second",
+        "avatar": "http://localhost/dojo/images/image2.png",
+        "bio": "Brian Arnold is a software engineer at SitePen, Inc., ... second"
+    }
+]

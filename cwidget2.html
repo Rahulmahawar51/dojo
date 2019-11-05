@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body class="claro">
+    <!-- <span data-dojo-type="Counter"></span> -->
+    <div data-dojo-type="FancyCounter" data-dojo-props="label:'counter label 1'"></div>
+    <!-- <span data-dojo-type="FancyCounter">press me</span> -->
+
+    <script data-dojo-config="async: true" src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+	<script>
+        /*************************************************************************************************/
+
+        // // the parser is only needed, if you want
+        // // to instantiate the widget declaratively (in markup)
+        // require([
+        //     "dojo/_base/declare", "dojo/dom-construct", "dojo/ready", "dojo/_base/window",
+        //     "dijit/_WidgetBase",
+        // ], function(declare, domConstruct, ready, win, _WidgetBase){
+
+        //     declare("MyFirstWidget", [_WidgetBase], {
+        //         buildRendering: function(){
+        //             // create the DOM for this widget
+        //             this.domNode = domConstruct.create("button", {innerHTML: "push me"});
+        //         }
+        //     });
+
+        //     ready(function(){
+        //         // Create the widget programmatically and place in DOM
+        //         (new MyFirstWidget()).placeAt(win.body());
+        //     });
+        // });
+
+        /*************************************************************************************************/
+
+        // require([
+        //     "dojo/_base/declare", "dojo/dom-construct", "dojo/parser", "dojo/ready",
+        //     "dijit/_WidgetBase",
+        // ], function(declare, domConstruct, parser, ready,_WidgetBase){
+        //     declare("Counter", [_WidgetBase], {
+        //         // counter
+        //         _i: 0,
+
+        //         buildRendering: function(){
+        //             // create the DOM for this widget
+        //             this.domNode = domConstruct.create("button", {innerHTML: this._i});
+        //         },
+
+        //         postCreate: function(){
+        //             // every time the user clicks the button, increment the counter
+        //             this.connect(this.domNode, "onclick", "increment");
+        //         },
+
+        //         increment: function(){
+        //             this.domNode.innerHTML = ++this._i;
+        //         }
+        //     });
+
+        //     ready(function(){
+        //         // Call the parser manually so it runs after our widget is defined, and page has finished loading
+        //         parser.parse();
+        //     });
+        // });
+
+        /*************************************************************************************************/
+
+        require([
+            "dojo/_base/declare", "dojo/parser", "dojo/ready",
+            "dijit/_WidgetBase", "dijit/_TemplatedMixin"
+        ], function(declare, parser, ready, _WidgetBase, _TemplatedMixin){
+
+            declare("FancyCounter", [_WidgetBase, _TemplatedMixin], {
+                // counter
+                _i: 0,
+                label:'nothing',
+
+                templateString: "<div>" +
+                    "<button data-dojo-attach-event='onclick: increment'>${label}</button>" +
+                    "&nbsp; count: <span data-dojo-attach-point='counter'>0</span>" +
+                    "</div>",
+
+                increment: function(){
+                    this.counter.innerHTML = ++this._i;
+                }
+            });
+
+            ready(function(){
+                // Call the parser manually so it runs after our widget is defined, and page has finished loading
+                parser.parse();
+            });
+        });
+	</script>
+</body>
+</html>
