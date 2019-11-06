@@ -1,4 +1,5 @@
 <div>
-    <h3 data-dojo-attach-point="firstNode">${first}</h3>
-    <h3 data-dojo-attach-point="lastNode">${last}</h3>
+    {% for ob in obj %}
+        <h3 data-dojo-attach-point="firstNode">{{ob.first}}</h3>
+    {% endfor %}
 </div>

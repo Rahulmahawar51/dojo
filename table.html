@@ -7,17 +7,15 @@
     <title>Custom Widget!</title>
 </head>
 <body>
-    <!--
-    <div 
-        data-dojo-type="TableWidget" 
-        data-dojo-props="first:'Rahul', last:'Mahawar'" >
-    </div>
+
     <div id="nameContainer"></div>
--->
+    <div id="nameContainer1"></div>
+
     <script>
         var dojoConfig = {
             baseUrl: '/dojo/',
             async: true,
+            parseOnLoad: false,
             packages: [{
                 name: "tableWidget",
                 location: 'TableWidget'
@@ -25,19 +23,46 @@
         };
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script> 
-     <script>
+    <script>
         require([
+            "dojo/request",
+            "dojo/_base/array",
             "dojo/dom",
             "dojo/parser",
             "tableWidget/TableWidget", 
+            "dojox/grid/DataGrid",
             "dojo/domReady!"
-        ],function(dom, parser, TableWidget){
-            // var container = dom.byId("nameContainer");
-            // var obj = {first:'Rahul', last:'Mahawar'};
-            // (new TableWidget(obj)).placeAt(container);
+        ],function(request, arrayUtil, dom, parser, TableWidget, DataGrid){
+            request("TableWidget/data/table.json", {
+                handleAs: "json"
+            }).then(function(authors){
+                var authorContainer = dom.byId("nameContainer");
+                var widget = new TableWidget(authors).placeAt(authorContainer);
+            });
+            var grid = new DataGrid({
+            // store: store,
+            query: { id: "*" },
+            structure: [
+                { name: "First Name", field: "first", width: "84px" },
+                { name: "Last Name", field: "last", width: "84px" },
+                { name: "Bats", field: "bats", width: "70px" },
+                { name: "Throws", field: "throws", width: "70px" },
+                { name: "G", field: "totalG", width: "60px" },
+                { name: "AB", field: "totalAB", width: "60px" },
+                { name: "Games as Batter", field: "totalGAB", width: "120px" },
+                { name: "R", field: "totalR", width: "60px" },
+                { name: "RBI", field: "totalRBI", width: "60px" },
+                { name: "BB", field: "totalBB", width: "60px" },
+                { name: "K", field: "totalK", width: "60px" },
+                { name: "H", field: "totalH", width: "60px" },
+                { name: "2B", field: "total2B", width: "60px" },
+                { name: "3B", field: "total3B", width: "60px" },
+                { name: "HR", field: "totalHR", width: "60px" }
+            ]
+        }, "grid");
+        grid.placeAt(dom.byId('nameContainer1'))
             parser.parse();
         });
     </script> 
-    <div data-dojo-type="TableWidget"></div>
 </body>
 </html>
